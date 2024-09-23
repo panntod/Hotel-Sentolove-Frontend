@@ -57,7 +57,7 @@ export default function LoginForm() {
     <Box width={{ lg: "70%" }} mx={"auto"}>
       <AlertNotification status={status} message={message} />
       <Box mt={4}>
-        <Heading fontWeight={700} color="orange.500">
+        <Heading fontWeight={700} color="blue.500">
           Masuk
         </Heading>
         <Text fontSize="md" my={3}>
@@ -71,7 +71,7 @@ export default function LoginForm() {
             name="email"
             id="email"
             borderRadius="full"
-            focusBorderColor="orange.500"
+            focusBorderColor="blue.500"
             placeholder="Email"
             {...register("email", { required: true })}
           />
@@ -86,7 +86,7 @@ export default function LoginForm() {
               name="password"
               id="password"
               borderRadius="full"
-              focusBorderColor="orange.500"
+              focusBorderColor="blue.500"
               placeholder="Password"
               {...register("password", {
                 required: true,
@@ -115,15 +115,15 @@ export default function LoginForm() {
           )}
           <Button
             mt={8}
-            bg="orange.500"
+            bg="blue.500"
             color="white"
             isLoading={isLoading}
             type="submit"
             w="full"
             borderRadius="full"
             borderWidth={2}
-            borderColor="orange.500"
-            _hover={{ bg: "white", color: "orange.500" }}
+            borderColor="blue.500"
+            _hover={{ bg: "white", color: "blue.500" }}
             onClick={handleSubmit(async (values) => {
               await submitHandler(values);
             })}
@@ -131,6 +131,17 @@ export default function LoginForm() {
             Masuk
           </Button>
         </FormControl>
+        <Text fontSize="md" textAlign={"center"} my={3}>
+          Belum memiliki akun?{" "}
+          <Text
+            color="blue.500"
+            as="span"
+            cursor="pointer"
+            onClick={() => navigate("/register")}
+          >
+            Daftar
+          </Text>
+        </Text>
       </Box>
     </Box>
   );

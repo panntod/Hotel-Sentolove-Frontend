@@ -1,7 +1,7 @@
 import React from "react";
 import { Center, Container, Grid, GridItem, Image } from "@chakra-ui/react";
 import LoginForm from "./fragments/LoginForm";
-import ImageLogin from "../../assets/image-login.jpg";
+import ImageLogin from "../../assets/hotel-image.png";
 
 export default function index() {
   return (
@@ -14,13 +14,13 @@ export default function index() {
           templateColumns={{ lg: "repeat(2, 1fr)" }}
           justifyContent="center"
         >
-          <GridItem margin={{ base: "auto", lg: "auto 0" }}>
-            <LoginForm />
-          </GridItem>
           <GridItem margin={{ base: "5", lg: "auto 0" }}>
             <Center>
-              <Image src={ImageLogin} alt="image login" />
+              <Image src={ImageLogin} height={600} width={1200} alt="image login" />
             </Center>
+          </GridItem>
+          <GridItem margin={{ base: "auto", lg: "auto 0" }}>
+            <LoginForm />
           </GridItem>
         </Grid>
       </Center>
