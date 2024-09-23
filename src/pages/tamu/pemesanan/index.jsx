@@ -22,6 +22,12 @@ import { LOCAL_STORAGE_USER } from "../../../utils/constants";
 import { getLocalStorage } from "../../../utils/helper/localStorage";
 
 export default function index() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const user = getLocalStorage(LOCAL_STORAGE_USER);
+    setUser(user);
+  }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -42,8 +48,8 @@ export default function index() {
   );
 
   const getData = async () => {
-    await dispatch(getAllTipeKamar());
-    await dispatch(getByTipeKamarAvailable(id_tipe_kamar));
+    dispatch(getAllTipeKamar());
+    dispatch(getByTipeKamarAvailable(id_tipe_kamar));
   };
 
   const submitHandler = async (value) => {
@@ -56,6 +62,7 @@ export default function index() {
       const user = getLocalStorage(LOCAL_STORAGE_USER);
       const valuesPemesanan = {
         ...value,
+        email_pemesan: user.email,
         id_tipe_kamar: id_tipe_kamar,
         id_user: user.id_user,
         status_pemesanan: "baru",
@@ -143,24 +150,16 @@ export default function index() {
             <Controller
               name="email_pemesan"
               control={control}
-              rules={{ required: true }}
               render={({ field }) => (
                 <Input
                   {...field}
-                  placeholder="Email Pemesan"
+                  value={user?.email}
                   style={{ width: "100%" }}
                   type={"email"}
+                  disabled
                 />
               )}
             />
-            {errors.email_pemesan?.type === "required" && (
-              <TextPoppins
-                text={"Email pemesan tidak boleh kosong"}
-                color={"red.500"}
-                fontSize={"xs"}
-                fontWeight={"400"}
-              />
-            )}
           </Box>
           <Box>
             <TextPoppins text="Tanggal Check In dan Check Out" />
@@ -229,9 +228,7 @@ export default function index() {
           <Button
             colorScheme={"green"}
             size={"sm"}
-            onClick={handleSubmit(async (values) => {
-              await submitHandler(values);
-            })}
+            onClick={handleSubmit(submitHandler)}
             isLoading={loading}
           >
             <TextPoppins text="Pesan" />
