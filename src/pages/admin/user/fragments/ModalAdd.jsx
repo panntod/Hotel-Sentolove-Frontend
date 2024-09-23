@@ -99,7 +99,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="nama_user"
                     id="nama_user"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Nama"
                     {...register("nama_user", {
                       required: true,
@@ -116,14 +116,14 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="role"
                     id="role"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Role"
                     {...register("role", {
                       required: true,
                     })}
                   >
                     <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                    <option value="resepsionis">Resepsionis</option>
                     <option value="tamu">Tamu</option>
                   </Select>
                   {errors.role?.type === "required" && (
@@ -138,7 +138,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="email"
                     id="email"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Email"
                     {...register("email", {
                       required: true,
@@ -156,7 +156,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="password"
                     id="password"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Password"
                     {...register("password", {
                       required: true,
@@ -174,7 +174,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="foto"
                     id="foto"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Foto"
                     {...register("foto", {
                       required: true,
@@ -190,7 +190,7 @@ export default function ModalAdd({ isOpen, onClose }) {
             </Container>
             <Button
               variant="outline"
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               fontWeight={500}
               px={6}
               borderRadius="lg"
@@ -202,7 +202,7 @@ export default function ModalAdd({ isOpen, onClose }) {
               type="submit"
               ml={4}
               px={6}
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               borderRadius="lg"
               fontWeight={500}
               onClick={handleSubmit(async (values) => {

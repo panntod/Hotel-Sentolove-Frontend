@@ -137,12 +137,12 @@ export default function Sidebar() {
           <Box display={{ base: "none", md: "block" }}></Box>
           <Heading
             mx={"auto"}
-            color={"orange.400"}
+            color={"blue.400"}
             fontSize={"xl"}
             display={"block"}
             fontFamily={"Poppins"}
           >
-            {ciutkan ? "WH" : "Wikusama Hotel"}
+            {ciutkan ? "SH" : "Sentolove Hotel"}
           </Heading>
           <IconButton
             size={"md"}
@@ -234,7 +234,7 @@ export default function Sidebar() {
                 justifyContent={ciutkan ? "center" : "flex-start"}
                 alignItems="center"
                 w="full"
-                _hover={{ color: "orange.500", borderColor: "transparent" }}
+                _hover={{ color: "blue.500", borderColor: "transparent" }}
                 color={"gray.500"}
                 onClick={() => dispatch(handleCiutkan(!ciutkan))}
                 bgColor={"transparent"}
@@ -249,7 +249,7 @@ export default function Sidebar() {
                 />
                 {!ciutkan && (
                   <Text fontSize={"sm"} fontWeight={"normal"} ml={4}>
-                    Ciutkan
+                    Tutup
                   </Text>
                 )}
               </Button>

@@ -66,7 +66,7 @@ export default function index() {
                 <TextPoppins
                   text="Data Diri Pemesan"
                   fontWeight={700}
-                  color={"orange.500"}
+                  color={"blue.500"}
                   fontSize={"xl"}
                   marginBottom={3}
                 />
@@ -125,7 +125,7 @@ export default function index() {
                 <TextPoppins
                   text="Status Pemesanan"
                   fontWeight={700}
-                  color={"orange.500"}
+                  color={"blue.500"}
                   fontSize={"xl"}
                   marginBottom={3}
                   marginTop={10}
@@ -160,7 +160,7 @@ export default function index() {
               <TextPoppins
                 text="Tanggal Pemesan"
                 fontWeight={700}
-                color={"orange.500"}
+                color={"blue.500"}
                 fontSize={"xl"}
                 marginBottom={3}
               />
@@ -207,7 +207,7 @@ export default function index() {
               <TextPoppins
                 text="Detail Kamar"
                 fontWeight={700}
-                color={"orange.500"}
+                color={"blue.500"}
                 fontSize={"xl"}
                 marginBottom={3}
               />
@@ -255,7 +255,7 @@ export default function index() {
                     fontSize={"md"}
                   />
                   <Image
-                    src={`${BASE_API_IMAGE}/tipe kamar/${pemesanan?.tipe_kamar?.foto}`}
+                    src={`${BASE_API_IMAGE}/tipe_kamar/${pemesanan?.tipe_kamar?.foto}`}
                     w={28}
                     h={40}
                     objectFit={"cover"}

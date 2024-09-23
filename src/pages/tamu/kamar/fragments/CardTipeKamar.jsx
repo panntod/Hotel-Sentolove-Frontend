@@ -18,7 +18,7 @@ export default function CardTipeKamar({ foto, nama, harga, id }) {
         cursor={"pointer"}
       >
         <Image
-          src={`${BASE_API_IMAGE}/tipe kamar/${foto}`}
+          src={`${BASE_API_IMAGE}/tipe_kamar/${foto}`}
           alt={nama}
           width={"full"}
           height={56}

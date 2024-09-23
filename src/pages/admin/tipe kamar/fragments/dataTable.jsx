@@ -30,7 +30,7 @@ const columns = [
     width: "15%",
     render: (foto) => (
       <Image
-        src={`${BASE_API_IMAGE}/tipe kamar/${foto}`}
+        src={`${BASE_API_IMAGE}/tipe_kamar/${foto}`}
         alt="foto"
         h={52}
         objectFit={"cover"}

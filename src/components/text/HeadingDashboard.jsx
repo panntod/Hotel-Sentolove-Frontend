@@ -7,7 +7,7 @@ export default function HeadingDashboard(props) {
       as="h1"
       size="xl"
       fontWeight={600}
-      color={"orange.500"}
+      color={"blue.500"}
       fontFamily={"Poppins"}
     >
       {props.text}

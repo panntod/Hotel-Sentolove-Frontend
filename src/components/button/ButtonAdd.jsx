@@ -5,7 +5,7 @@ import { FaPlusCircle } from "react-icons/fa";
 export default function ButtonAdd({ heading, onclick }) {
   return (
     <Button
-      colorScheme={"orange"}
+      colorScheme={"blue"}
       size={{ base: "sm", md: "md" }}
       px={"10"}
       fontWeight={400}

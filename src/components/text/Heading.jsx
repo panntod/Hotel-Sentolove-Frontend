@@ -7,7 +7,7 @@ export default function Heading(props) {
       as="h1"
       size="lg"
       fontWeight={600}
-      color={"orange.500"}
+      color={"blue.500"}
       fontFamily={"Poppins"}
       textTransform={props.textTransform}
     >

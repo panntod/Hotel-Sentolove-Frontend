@@ -104,7 +104,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="nama_user"
                     id="nama_user"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Nama"
                     {...register("nama_user")}
                   />
@@ -119,7 +119,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="role"
                     id="role"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Role"
                     {...register("role")}
                   >
@@ -134,7 +134,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="email"
                     id="email"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Email"
                     {...register("email")}
                   />
@@ -145,7 +145,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="password"
                     id="password"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Password"
                     {...register("password")}
                   />
@@ -156,7 +156,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="foto"
                     id="foto"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Foto"
                     {...register("foto")}
                   />
@@ -165,7 +165,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
             </Container>
             <Button
               variant="outline"
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               fontWeight={500}
               px={6}
               borderRadius="lg"
@@ -177,7 +177,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
               type="submit"
               ml={4}
               px={6}
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               borderRadius="lg"
               fontWeight={500}
               onClick={handleSubmit(async (values) => {

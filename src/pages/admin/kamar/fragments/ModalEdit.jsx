@@ -110,7 +110,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="nomor_kamar"
                     id="nomor_kamar"
                     borderRadius="full"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Nomor Kamar"
                     {...register("nomor_kamar", {
                       required: true,
@@ -127,7 +127,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
                     name="id_tipe_kamar"
                     id="id_tipe_kamar"
                     borderRadius="full"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Tipe Kamar"
                     {...register("id_tipe_kamar", {
                       required: true,
@@ -149,7 +149,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
             </Container>
             <Button
               variant="outline"
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               fontWeight={500}
               px={6}
               borderRadius="full"
@@ -161,7 +161,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
               type="submit"
               ml={4}
               px={6}
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               borderRadius="full"
               fontWeight={500}
               onClick={handleSubmit(async (values) => {

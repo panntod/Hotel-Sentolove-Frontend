@@ -43,7 +43,7 @@ export default function ModalDelete({ isOpen, onClose, payload }) {
         <ModalFooter justifyContent="center">
           <Button
             variant={"outline"}
-            colorScheme={"orange"}
+            colorScheme={"blue"}
             size={"md"}
             mr={3}
             onClick={onClose}
@@ -55,7 +55,7 @@ export default function ModalDelete({ isOpen, onClose, payload }) {
           <Button
             size={"md"}
             borderRadius="lg"
-            colorScheme={"orange"}
+            colorScheme={"blue"}
             fontWeight={500}
             onClick={() => {
               dispatch(deleteKamar(payload));

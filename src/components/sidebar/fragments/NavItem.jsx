@@ -19,7 +19,7 @@ export default function NavItem({
       <Tooltip
         hasArrow
         label={label}
-        bg="orange.500"
+        bg="blue.500"
         placement="right"
         display={ciutkan ? "block" : "none"}
       >
@@ -31,9 +31,9 @@ export default function NavItem({
           justifyContent={ciutkan ? "center" : "flex-start"}
           alignItems="center"
           w={"full"}
-          _hover={{ color: "orange.500", borderColor: "transparent" }}
+          _hover={{ color: "blue.500", borderColor: "transparent" }}
           bg={ciutkan ? "white" : active ? "gray.100" : "white"}
-          color={active ? "orange.500" : "gray.500"}
+          color={active ? "blue.500" : "gray.500"}
           borderRadius="0"
           position={"relative"}
           onClick={isOpen ? onClose : onOpen}
@@ -54,7 +54,7 @@ export default function NavItem({
                 h={"full"}
                 w={2}
                 borderRadius={"10px 0 0 10px"}
-                bgColor={"orange.500"}
+                bgColor={"blue.500"}
                 position={"absolute"}
                 right={0}
               />

@@ -47,7 +47,7 @@ export default function index() {
           <Box>
             <Flex gap={10} flexDir={{ base: "column", md: "row" }}>
               <Image
-                src={`${BASE_API_IMAGE}/tipe kamar/${tipeKamar?.foto}`}
+                src={`${BASE_API_IMAGE}/tipe_kamar/${tipeKamar?.foto}`}
                 w={{ md: "50%" }}
                 h={96}
                 objectFit={"cover"}

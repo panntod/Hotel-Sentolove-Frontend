@@ -18,7 +18,7 @@ export default function Logout() {
     <Tooltip
       hasArrow
       label={"Logout"}
-      bg="orange.500"
+      bg="blue.500"
       placement="right"
       display={ciutkan ? "block" : "none"}
     >
@@ -30,7 +30,7 @@ export default function Logout() {
         justifyContent={ciutkan ? "center" : "flex-start"}
         alignItems="center"
         w={"full"}
-        _hover={{ color: "orange.500", borderColor: "transparent" }}
+        _hover={{ color: "blue.500", borderColor: "transparent" }}
         bg={"white"}
         color={"gray.500"}
         borderRadius="0"

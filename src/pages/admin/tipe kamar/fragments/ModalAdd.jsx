@@ -100,7 +100,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="nama_tipe_kamar"
                     id="nama_tipe_kamar"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Nama"
                     {...register("nama_tipe_kamar", {
                       required: true,
@@ -119,7 +119,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                       name="harga"
                       id="harga"
                       borderRadius="lg"
-                      focusBorderColor="orange.500"
+                      focusBorderColor="blue.500"
                       placeholder="Harga"
                       {...register("harga", {
                         required: true,
@@ -139,7 +139,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="foto"
                     id="foto"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Foto"
                     {...register("foto", {
                       required: true,
@@ -156,7 +156,7 @@ export default function ModalAdd({ isOpen, onClose }) {
                     name="deskripsi"
                     id="deskripsi"
                     borderRadius="lg"
-                    focusBorderColor="orange.500"
+                    focusBorderColor="blue.500"
                     placeholder="Deskripsi"
                     minH={10}
                     {...register("deskripsi", {
@@ -173,7 +173,7 @@ export default function ModalAdd({ isOpen, onClose }) {
             </Container>
             <Button
               variant="outline"
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               fontWeight={500}
               px={6}
               borderRadius="lg"
@@ -185,7 +185,7 @@ export default function ModalAdd({ isOpen, onClose }) {
               type="submit"
               ml={4}
               px={6}
-              colorScheme={"orange"}
+              colorScheme={"blue"}
               borderRadius="lg"
               fontWeight={500}
               onClick={handleSubmit(async (values) => {
