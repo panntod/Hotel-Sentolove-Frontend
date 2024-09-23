@@ -23,6 +23,7 @@ import {
   TamuCetakPemesanan,
   TamuPemesanan,
   TamuHistoriPemesanan,
+  Register,
 } from "./pages";
 import AdminLayout from "./components/layout/AdminLayout";
 import ResepsionisLayout from "./components/layout/ResepsionisLayout";
@@ -31,14 +32,14 @@ import TamuLayout from "./components/layout/TamuLayout";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<ProtectedRoutes />}>
-        <Route path="dashboard/admin" element={<AdminLayout />}>
+      <Route path="/dashboard" element={<ProtectedRoutes />}>
+        <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="kamar" element={<AdminKamar />} />
           <Route path="tipe-kamar" element={<AdminTipeKamar />} />
           <Route path="user" element={<AdminUser />} />
         </Route>
-        <Route path="dashboard/resepsionis" element={<ResepsionisLayout />}>
+        <Route path="resepsionis" element={<ResepsionisLayout />}>
           <Route index element={<ResepsionisDashboard />} />
           <Route path="pemesanan" element={<ResepsionisPemesanan />} />
           <Route
@@ -46,7 +47,7 @@ const router = createBrowserRouter(
             element={<ReseprionisDetailPemesanan />}
           />
         </Route>
-        <Route path="dashboard/tamu" element={<TamuLayout />}>
+        <Route path="tamu" element={<TamuLayout />}>
           <Route index element={<TamuDashboard />} />
           <Route path="kamar" element={<TamuKamar />} />
           <Route
@@ -58,12 +59,15 @@ const router = createBrowserRouter(
           <Route path="histori-pemesanan" element={<TamuHistoriPemesanan />} />
         </Route>
         <Route
-          path="dashboard/tamu/cek-pemesanan/cetak-pemesanan/:id"
+          path="tamu/cek-pemesanan/cetak-pemesanan/:id"
           element={<TamuCetakPemesanan />}
         />
       </Route>
       <Route path="login" element={<PublicRoutes />}>
         <Route index element={<Login />} />
+      </Route>
+      <Route path="register" element={<PublicRoutes />}>
+        <Route index element={<Register />} />
       </Route>
     </>
   )
