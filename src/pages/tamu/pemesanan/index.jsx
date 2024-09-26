@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Flex, Button } from "@chakra-ui/react";
 import { Input, DatePicker, Alert } from "antd";
 import TextPoppins from "../../../components/text/TextPoppins";
 import Heading from "../../../components/text/Heading";
 import Container from "../../../components/container/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import {
   getAllTipeKamar,
   tipeKamarSelectors,
 } from "../../../utils/store/reducers/tipeKamarSlice";
-import {
-  getByTipeKamarAvailable,
-  updateKamar,
-  kamarSelector,
-} from "../../../utils/store/reducers/kamarSlice";
-import { addDetailPemesanan } from "../../../utils/store/reducers/detailPemesananSlice";
 import { addPemesanan } from "../../../utils/store/reducers/pemesananSlice";
 import { LOCAL_STORAGE_USER } from "../../../utils/constants";
 import { getLocalStorage } from "../../../utils/helper/localStorage";
+import { userAuth } from "../../../utils/helper/getAuth";
 
 export default function index() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const user = getLocalStorage(LOCAL_STORAGE_USER);
-    setUser(user);
-  }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -39,62 +28,58 @@ export default function index() {
     formState: { errors },
   } = useForm();
   const { id_tipe_kamar } = useParams();
-  const kamar = useSelector(kamarSelector.selectAll);
-  const kamarFilter = kamar.filter(
-    (item) => item.id_tipe_kamar == id_tipe_kamar
-  );
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const data = getLocalStorage(LOCAL_STORAGE_USER);
+    setUser(data);
+  }, []);
+  
   const tipeKamar = useSelector((state) =>
-    tipeKamarSelectors.selectById(state, id_tipe_kamar)
+    tipeKamarSelectors.selectById(state, id_tipe_kamar),
   );
 
   const getData = async () => {
     dispatch(getAllTipeKamar());
-    dispatch(getByTipeKamarAvailable(id_tipe_kamar));
   };
+
+  const { auth } = userAuth();
+
+  if (!auth) {
+    return <Navigate to={"/login"} replace />;
+  }
 
   const submitHandler = async (value) => {
     setLoading(true);
-    if (value.jumlah_kamar > kamarFilter.length) {
-      setMessage("Jumlah kamar yang tersedia tidak mencukupi");
+    const tgl1 = new Date(value.selectedDate[0]).toISOString();
+    const tgl2 = new Date(value.selectedDate[1]).toISOString();
+
+    if (value.jumlah_kamar <= 0) {
+      setMessage("Masukan jumlah kamar yang valid");
       setStatus("error");
       setLoading(false);
     } else {
-      const user = getLocalStorage(LOCAL_STORAGE_USER);
       const valuesPemesanan = {
         ...value,
         email_pemesan: user.email,
-        id_tipe_kamar: id_tipe_kamar,
-        id_user: user.id_user,
+        tipe_kamar: tipeKamar.nama_tipe_kamar,
         status_pemesanan: "baru",
-        tgl_check_in: new Date(value.tgl_check_in[0]).toISOString(),
-        tgl_check_out: new Date(value.tgl_check_in[1]).toISOString(),
+        check_in: tgl1,
+        check_out: tgl2,
       };
-      const resPemesanan = await dispatch(addPemesanan(valuesPemesanan));
+      const response = await dispatch(addPemesanan(valuesPemesanan));
 
-      for (let i = 0; i < value.jumlah_kamar; i++) {
-        const valuesDetailPemesanan = {
-          id_pemesanan: resPemesanan.payload.data.id_pemesanan,
-          id_kamar: kamarFilter[i].id_kamar,
-          tgl_akses: new Date().toISOString(),
-          harga: tipeKamar.harga,
-        };
-        const valueUpdateKamar = {
-          check_in: new Date(value.tgl_check_in[0]).toISOString(),
-          check_out: new Date(value.tgl_check_in[1]).toISOString(),
-        };
-
-        await dispatch(addDetailPemesanan(valuesDetailPemesanan));
-        await dispatch(
-          updateKamar({ values: valueUpdateKamar, id: kamarFilter[i].id_kamar })
-        );
+      if (response.payload.status === "success") {
+        setMessage("Pemesanan berhasil");
+        setStatus("success");
+        setLoading(false);
+        setTimeout(() => {
+          navigate("/dashboard/tamu/kamar");
+        }, 1000);
+      } else {
+        setMessage(response.payload.message);
+        setStatus("error");
+        setLoading(false);
       }
-
-      setMessage("Pemesanan berhasil");
-      setStatus("success");
-      setLoading(false);
-      setTimeout(() => {
-        navigate("/dashboard/tamu/kamar");
-      }, 1000);
     }
   };
 
@@ -164,7 +149,7 @@ export default function index() {
           <Box>
             <TextPoppins text="Tanggal Check In dan Check Out" />
             <Controller
-              name="tgl_check_in"
+              name="selectedDate"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (

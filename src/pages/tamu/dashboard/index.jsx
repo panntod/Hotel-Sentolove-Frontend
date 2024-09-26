@@ -28,7 +28,7 @@ export default function index() {
       >
         <HeadingDashboard text="Selamat Datang di Dashboard Tamu" />
         <Text fontWeight={500} fontSize={"xl"}>
-          Saat ini anda login sebagai : {user?.nama_user}
+          Saat ini anda login sebagai : {user?.nama_user || "Guest"}
         </Text>
       </Box>
     </Container>

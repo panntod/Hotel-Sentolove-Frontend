@@ -1,29 +1,27 @@
-import React from "react";
-
 const columns = [
   {
     title: "No Pemesanan",
     dataIndex: "nomor_pemesanan",
     key: "nomor_pemesanan",
-    width: "15%",
+    width: "12%",
   },
   {
     title: "Nama Tamu",
     dataIndex: "nama_tamu",
     key: "nama_tamu",
-    width: "15%",
+    width: "12%",
   },
   {
     title: "Email",
     dataIndex: "email_pemesan",
     key: "email_pemesan",
-    width: "15%",
+    width: "10%",
   },
   {
     title: "Tanggal Check In",
     dataIndex: "tgl_check_in",
     key: "tgl_check_in",
-    width: "15%",
+    width: "12%",
     render: (tgl_check_in) => (
       <span>
         {new Date(tgl_check_in).toLocaleDateString("id-ID", {
@@ -39,7 +37,7 @@ const columns = [
     title: "Tanggal Check Out",
     dataIndex: "tgl_check_out",
     key: "tgl_check_out",
-    width: "15%",
+    width: "12%",
     render: (tgl_check_out) => (
       <span>
         {new Date(tgl_check_out).toLocaleDateString("id-ID", {
@@ -53,16 +51,46 @@ const columns = [
   },
   {
     title: "Tipe Kamar",
-    dataIndex: "tipe_kamar",
-    key: "tipe_kamar",
-    width: "15%",
-    render: (tipe_kamar) => <span>{tipe_kamar?.nama_tipe_kamar}</span>,
+    dataIndex: "nama_tipe_kamar",
+    key: "nama_tipe_kamar",
+    width: "10%",
+  },
+  {
+    title: "Nomor Kamar",
+    dataIndex: "nomor_kamar",
+    key: "nomor_kamar",
+    width: "10%",
   },
   {
     title: "Status",
     dataIndex: "status_pemesanan",
     key: "status_pemesanan",
-    width: "15%",
+    width: "8%",
+    render: (status) => (
+      <span>
+        {status === "check_in"
+          ? "Checkin"
+          : status === "check_out"
+            ? "Checkout"
+            : "Baru"}
+      </span>
+    ),
+  },
+  {
+    title: "Harga",
+    dataIndex: "harga",
+    key: "harga",
+    width: "12%",
+    render: (harga) => (
+      <span>
+        {new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(harga)}
+      </span>
+    ),
   },
 ];
 

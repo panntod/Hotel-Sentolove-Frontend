@@ -13,28 +13,27 @@ import { useSelector, useDispatch } from "react-redux";
 import CardTipeKamar from "./fragments/CardTipeKamar";
 
 export default function index() {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const tipeKamar = useSelector(tipeKamarSelectors.selectAll);
-  const [loading, setLoading] = useState(false);
 
-  const handleSearch = (value) => {
+  const handleSearch = async (value) => {
     setLoading(true);
-    dispatch(searchTipeKamar(value));
+    await dispatch(searchTipeKamar(value));
     setLoading(false);
   };
 
-  const handleCheckAvailable = (date) => {
+  const handleCheckAvailable = async (date) => {
     setLoading(true);
-    dispatch(
-      checkAvailableKamarByDate({ check_in: date[0], check_out: date[1] })
+    const result = await dispatch(
+      checkAvailableKamarByDate({ check_in: date[0], check_out: date[1] }),
     );
-    console.log(date);
     setLoading(false);
   };
 
   const getData = async () => {
     setLoading(true);
-    await dispatch(getAllTipeKamar());
+    const result = await dispatch(getAllTipeKamar());
     setLoading(false);
   };
 
@@ -60,7 +59,7 @@ export default function index() {
             style={{
               width: "100%",
             }}
-            onChange={(date, dateString) => {
+            onChange={(_, dateString) => {
               if (dateString[0] === "" && dateString[1] === "") {
                 getData();
               } else {

@@ -17,7 +17,7 @@ export default function index() {
   const [loading, setLoading] = useState(false);
   const { id_tipe_kamar } = useParams();
   const tipeKamar = useSelector((state) =>
-    tipeKamarSelectors.selectById(state, id_tipe_kamar)
+    tipeKamarSelectors.selectById(state, id_tipe_kamar),
   );
 
   const getData = async () => {
@@ -37,7 +37,7 @@ export default function index() {
           textDecor={"none"}
           _hover={{ color: "black" }}
           my={2}
-        >{`<-- Kembali Ke Tipe Kamar`}</Text>
+        >{`<- Kembali Ke Tipe Kamar`}</Text>
       </Link>
       <Heading text="Detail Tipe Kamar" />
       <Box my={10} maxW={"100%"}>

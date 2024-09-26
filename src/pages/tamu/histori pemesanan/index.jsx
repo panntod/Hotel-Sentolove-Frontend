@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Progress } from "@chakra-ui/react";
-import { Input } from "antd";
-const { Search } = Input;
+import { Box, Progress } from "@chakra-ui/react";
 import Heading from "../../../components/text/Heading";
 import Container from "../../../components/container/Container";
 import Table from "../../../components/table";
@@ -17,7 +15,7 @@ import { LOCAL_STORAGE_USER } from "../../../utils/constants";
 export default function index() {
   const dispatch = useDispatch();
   const user = getLocalStorage(LOCAL_STORAGE_USER);
-  const pemesanan = useSelector(pemesananSelector.selectAll);
+  const dataPemesanan = useSelector(pemesananSelector.selectAll);
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
@@ -40,7 +38,7 @@ export default function index() {
           <Box w={"100%"}>
             <Table
               columns={columns}
-              data={pemesanan}
+              data={dataPemesanan}
               pagination={{
                 position: ["bottomRight"],
                 defaultPageSize: 5,

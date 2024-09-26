@@ -9,7 +9,7 @@ export default function HalamanCetak() {
   const { id } = useParams();
   const navigate = useNavigate();
   const pemesanan = useSelector((state) =>
-    pemesananSelector.selectById(state, id)
+    pemesananSelector.selectById(state, id),
   );
 
   useEffect(() => {
@@ -131,7 +131,34 @@ export default function HalamanCetak() {
                 fontWeight={400}
               />
             </Td>
-            <Td>{pemesanan.tipe_kamar.nama_tipe_kamar}</Td>
+            <Td>{pemesanan.nama_tipe_kamar}</Td>
+          </Tr>
+          <Tr>
+            <Td>
+              <TextPoppins
+                text={"Nomor Kamar:"}
+                fontSize={"md"}
+                fontWeight={400}
+              />
+            </Td>
+            <Td>
+              {Array.isArray(pemesanan.nomor_kamar)
+                ? pemesanan.nomor_kamar.join(", ")
+                : pemesanan.nomor_kamar}
+            </Td>
+          </Tr>
+          <Tr>
+            <Td>
+              <TextPoppins text={"Harga:"} fontSize={"md"} fontWeight={400} />
+            </Td>
+            <Td>
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(pemesanan.harga)}
+            </Td>
           </Tr>
           <Tr>
             <Td>
@@ -141,7 +168,13 @@ export default function HalamanCetak() {
                 fontWeight={400}
               />
             </Td>
-            <Td>{pemesanan.status_pemesanan}</Td>
+            <Td>
+              {pemesanan.status_pemesanan === "check_in"
+                ? "Check In"
+                : pemesanan.status_pemesanan === "check_out"
+                  ? "Check Out"
+                  : "Baru"}
+            </Td>
           </Tr>
         </Tbody>
       </Table>

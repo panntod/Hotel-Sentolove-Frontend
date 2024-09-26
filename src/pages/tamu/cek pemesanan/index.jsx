@@ -122,7 +122,7 @@ export default function index() {
               )}
               {pemesanan.map((item) => (
                 <Box
-                  key={item.id}
+                  key={item.id_pemesanan}
                   my={5}
                   display={"flex"}
                   flexDir={"column"}
@@ -186,7 +186,7 @@ export default function index() {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                            }
+                            },
                           )}
                         </Td>
                       </Tr>
@@ -206,7 +206,7 @@ export default function index() {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                            }
+                            },
                           )}
                         </Td>
                       </Tr>
@@ -226,7 +226,7 @@ export default function index() {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                            }
+                            },
                           )}
                         </Td>
                       </Tr>
@@ -258,7 +258,38 @@ export default function index() {
                             fontWeight={400}
                           />
                         </Td>
-                        <Td>{item.tipe_kamar.nama_tipe_kamar}</Td>
+                        <Td>{item.nama_tipe_kamar}</Td>
+                      </Tr>
+                      <Tr>
+                        <Td>
+                          <TextPoppins
+                            text={"Nomor Kamar:"}
+                            fontSize={"md"}
+                            fontWeight={400}
+                          />
+                        </Td>
+                        <Td>
+                          {Array.isArray(item.nomor_kamar)
+                            ? item.nomor_kamar.join(", ")
+                            : item.nomor_kamar}
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>
+                          <TextPoppins
+                            text={"Harga:"}
+                            fontSize={"md"}
+                            fontWeight={400}
+                          />
+                        </Td>
+                        <Td>
+                          {new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }).format(item.harga)}
+                        </Td>
                       </Tr>
                       <Tr>
                         <Td>
@@ -268,7 +299,13 @@ export default function index() {
                             fontWeight={400}
                           />
                         </Td>
-                        <Td>{item.status_pemesanan}</Td>
+                        <Td>
+                          {item.status_pemesanan === "check_in"
+                            ? "Check In"
+                            : item.status_pemesanan === "check_out"
+                              ? "Check Out"
+                              : "Baru"}
+                        </Td>
                       </Tr>
                     </Tbody>
                   </Table>
@@ -278,7 +315,7 @@ export default function index() {
                     size={"sm"}
                     onClick={() => {
                       navigate(
-                        `/dashboard/tamu/cek-pemesanan/cetak-pemesanan/${item.id_pemesanan}`
+                        `/dashboard/tamu/cek-pemesanan/cetak-pemesanan/${item.id_pemesanan}`,
                       );
                     }}
                   >

@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, Card, Image, Box } from "@chakra-ui/react";
 import { BASE_API_IMAGE } from "../../../../utils/constants";
 import { Link } from "react-router-dom";
