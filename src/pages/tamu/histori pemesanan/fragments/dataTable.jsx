@@ -6,9 +6,9 @@ const columns = [
     width: "12%",
   },
   {
-    title: "Nama Tamu",
-    dataIndex: "nama_tamu",
-    key: "nama_tamu",
+    title: "Nama Pemesan",
+    dataIndex: "nama_pemesan",
+    key: "nama_pemesan",
     width: "12%",
   },
   {

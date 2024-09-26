@@ -73,7 +73,7 @@ export default function index() {
         setStatus("success");
         setLoading(false);
         setTimeout(() => {
-          navigate("/dashboard/tamu/kamar");
+          navigate("/dashboard/tamu/histori-pemesanan");
         }, 1000);
       } else {
         setMessage(response.payload.message);
