@@ -1,7 +1,7 @@
-import React from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -69,8 +69,9 @@ const router = createBrowserRouter(
       <Route path="register" element={<PublicRoutes />}>
         <Route index element={<Register />} />
       </Route>
-    </>
-  )
+      <Route path="*" element={<Navigate to="/login" />} />
+    </>,
+  ),
 );
 
 export default function App() {
