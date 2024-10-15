@@ -5,8 +5,6 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import PublicRoutes from "./utils/routes/PublicRoutes";
-import ProtectedRoutes from "./utils/routes/ProtectedRoutes";
 import {
   Login,
   AdminKamar,
@@ -25,13 +23,17 @@ import {
   TamuHistoriPemesanan,
   Register,
 } from "./pages";
-import AdminLayout from "./components/layout/AdminLayout";
-import ResepsionisLayout from "./components/layout/ResepsionisLayout";
-import TamuLayout from "./components/layout/TamuLayout";
+import {
+  AdminLayout,
+  ResepsionisLayout,
+  TamuLayout,
+} from "./components/layout";
+import { ProtectedRoutes, PublicRoutes } from "./utils/routes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+      {/* PROTECTED ROUTES */}
       <Route path="/dashboard" element={<ProtectedRoutes />}>
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
@@ -63,12 +65,14 @@ const router = createBrowserRouter(
           element={<TamuCetakPemesanan />}
         />
       </Route>
-      <Route path="login" element={<PublicRoutes />}>
-        <Route index element={<Login />} />
+
+      {/* PUBLIC ROUTES */}
+      <Route element={<PublicRoutes />}>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Route>
-      <Route path="register" element={<PublicRoutes />}>
-        <Route index element={<Register />} />
-      </Route>
+
+      {/* NOT FOUND */}
       <Route path="*" element={<Navigate to="/login" />} />
     </>,
   ),
