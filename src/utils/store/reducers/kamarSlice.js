@@ -32,34 +32,7 @@ export const getAllDataKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
-);
-
-export const getByTipeKamarAvailable = createAsyncThunk(
-  "kamar/getByTipeKamarAvailable",
-  async (id) => {
-    const URL = `${BASE_API}/kamar/getByTipeKamarAvailable/${id}`;
-    try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
-      const res = data.data;
-
-      if (res.status === "success") {
-        return Promise.resolve({
-          status: "success",
-          data: res.data,
-        });
-      }
-    } catch (err) {
-      return Promise.resolve({
-        status: "error",
-        message: err.response.data.message,
-      });
-    }
-  }
+  },
 );
 
 export const searchNomorKamar = createAsyncThunk(
@@ -86,7 +59,7 @@ export const searchNomorKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const addKamar = createAsyncThunk("kamar/addKamar", async (values) => {
@@ -139,7 +112,7 @@ export const updateKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const deleteKamar = createAsyncThunk("kamar/deleteKamar", async (id) => {
@@ -180,21 +153,19 @@ const kamarSlice = createSlice({
         kamarAdapter.setAll(state, action.payload.data);
       }
     });
-    builder.addCase(getByTipeKamarAvailable.fulfilled, (state, action) => {
-      if (action.payload.status === "success") {
-        kamarAdapter.setAll(state, action.payload.data);
-      }
-    });
+
     builder.addCase(searchNomorKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         kamarAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(addKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         kamarAdapter.addOne(state, action.payload.data);
       }
     });
+
     builder.addCase(updateKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         kamarAdapter.updateOne(state, {
@@ -203,6 +174,7 @@ const kamarSlice = createSlice({
         });
       }
     });
+
     builder.addCase(deleteKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         kamarAdapter.removeOne(state, action.payload.data);

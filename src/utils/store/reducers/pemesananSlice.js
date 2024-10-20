@@ -32,7 +32,7 @@ export const getAllDataPemesanan = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const getAllDataPemesananByIdUser = createAsyncThunk(
@@ -59,7 +59,7 @@ export const getAllDataPemesananByIdUser = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const searchNamaTamu = createAsyncThunk(
@@ -86,7 +86,7 @@ export const searchNamaTamu = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const searchByEmailAndNumber = createAsyncThunk(
@@ -113,7 +113,7 @@ export const searchByEmailAndNumber = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const filterCheckIn = createAsyncThunk(
@@ -140,7 +140,7 @@ export const filterCheckIn = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const addPemesanan = createAsyncThunk(
@@ -168,7 +168,7 @@ export const addPemesanan = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const updatePemesanan = createAsyncThunk(
@@ -196,7 +196,7 @@ export const updatePemesanan = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const deletePemesanan = createAsyncThunk(
@@ -224,7 +224,7 @@ export const deletePemesanan = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 const pemesananAdapter = createEntityAdapter({
@@ -240,31 +240,37 @@ const pemesananSlice = createSlice({
         pemesananAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(getAllDataPemesananByIdUser.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(searchNamaTamu.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(filterCheckIn.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(searchByEmailAndNumber.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(addPemesanan.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.addOne(state, action.payload.data);
       }
     });
+
     builder.addCase(updatePemesanan.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.updateOne(state, {
@@ -273,6 +279,7 @@ const pemesananSlice = createSlice({
         });
       }
     });
+    
     builder.addCase(deletePemesanan.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         pemesananAdapter.removeOne(state, action.payload.data);
@@ -282,7 +289,7 @@ const pemesananSlice = createSlice({
 });
 
 export const pemesananSelector = pemesananAdapter.getSelectors(
-  (state) => state.pemesanan
+  (state) => state.pemesanan,
 );
 
 export default pemesananSlice.reducer;

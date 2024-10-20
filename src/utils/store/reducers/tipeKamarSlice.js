@@ -32,7 +32,7 @@ export const getAllTipeKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const searchTipeKamar = createAsyncThunk(
@@ -59,13 +59,13 @@ export const searchTipeKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const checkAvailableKamarByDate = createAsyncThunk(
   "tipeKamar/checkAvailableKamarByDate",
   async ({ check_in, check_out }) => {
-    const URL = `${BASE_API}/kamar/getTipeKamarUnavailable/${check_in}T00:00:00.000Z/${check_out}T05:00:00.000Z`;
+    const URL = `${BASE_API}/kamar/getTipeKamarAvailable/${check_in}/${check_out}`;
     try {
       const data = await axios.get(URL, {
         headers: {
@@ -85,7 +85,7 @@ export const checkAvailableKamarByDate = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const addTipeKamar = createAsyncThunk(
@@ -113,7 +113,7 @@ export const addTipeKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const updateTipeKamar = createAsyncThunk(
@@ -141,7 +141,7 @@ export const updateTipeKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const deleteTipeKamar = createAsyncThunk(
@@ -169,7 +169,7 @@ export const deleteTipeKamar = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 const tipeKamarAdapter = createEntityAdapter({
@@ -185,21 +185,25 @@ const tipeKamarSlice = createSlice({
         tipeKamarAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(searchTipeKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(checkAvailableKamarByDate.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.setAll(state, action.payload.data);
       }
     });
+
     builder.addCase(addTipeKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.addOne(state, action.payload.data);
       }
     });
+
     builder.addCase(updateTipeKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.updateOne(state, {
@@ -208,6 +212,7 @@ const tipeKamarSlice = createSlice({
         });
       }
     });
+    
     builder.addCase(deleteTipeKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.removeOne(state, action.payload.data);
@@ -217,7 +222,7 @@ const tipeKamarSlice = createSlice({
 });
 
 export const tipeKamarSelectors = tipeKamarAdapter.getSelectors(
-  (state) => state.tipeKamar
+  (state) => state.tipeKamar,
 );
 
 export default tipeKamarSlice.reducer;

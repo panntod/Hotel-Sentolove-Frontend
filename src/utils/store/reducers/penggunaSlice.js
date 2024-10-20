@@ -32,7 +32,7 @@ export const getAllPengguna = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const searchPengguna = createAsyncThunk(
@@ -59,7 +59,7 @@ export const searchPengguna = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const addPengguna = createAsyncThunk(
@@ -87,7 +87,7 @@ export const addPengguna = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const updatePengguna = createAsyncThunk(
@@ -115,7 +115,7 @@ export const updatePengguna = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 export const deletePengguna = createAsyncThunk(
@@ -143,7 +143,7 @@ export const deletePengguna = createAsyncThunk(
         message: err.response.data.message,
       });
     }
-  }
+  },
 );
 
 const penggunaAdapter = createEntityAdapter({
@@ -186,7 +186,7 @@ const penggunaSlice = createSlice({
 });
 
 export const penggunaSelectors = penggunaAdapter.getSelectors(
-  (state) => state.pengguna
+  (state) => state.pengguna,
 );
 
 export default penggunaSlice.reducer;
