@@ -5,24 +5,19 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_API } from "../../constants";
-import { getLocalStorage } from "../../helper/localStorage";
-import { LOCAL_STORAGE_TOKEN } from "../../constants";
 
 export const getAllPengguna = createAsyncThunk(
   "pengguna/getAllPengguna",
   async () => {
     const URL = `${BASE_API}/user/getAllData`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -40,16 +35,13 @@ export const searchPengguna = createAsyncThunk(
   async (value) => {
     const URL = `${BASE_API}/user/search/${value}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -67,17 +59,13 @@ export const addPengguna = createAsyncThunk(
   async (values) => {
     const URL = `${BASE_API}/user/register`;
     try {
-      const data = await axios.post(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.post(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menambahkan pengguna",
+          message: res.message,
           data: res.data,
         });
       }
@@ -95,17 +83,13 @@ export const updatePengguna = createAsyncThunk(
   async ({ values, id }) => {
     const URL = `${BASE_API}/user/edit/${id}`;
     try {
-      const data = await axios.patch(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.patch(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil mengubah pengguna",
+          message: res.message,
           data: res.data,
         });
       }
@@ -123,21 +107,18 @@ export const deletePengguna = createAsyncThunk(
   async (id) => {
     const URL = `${BASE_API}/user/delete/${id}`;
     try {
-      const data = await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.delete(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menghapus pengguna",
-          data: res.data.id_user,
+          message: res.message,
+          data: id,
         });
       }
     } catch (err) {
+      alert(err.response.data.message);
       return Promise.resolve({
         status: "error",
         message: err.response.data.message,

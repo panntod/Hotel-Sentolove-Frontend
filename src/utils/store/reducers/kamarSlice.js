@@ -5,25 +5,20 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_API } from "../../constants";
-import { getLocalStorage } from "../../helper/localStorage";
-import { LOCAL_STORAGE_TOKEN } from "../../constants";
 
 export const getAllDataKamar = createAsyncThunk(
   "kamar/getAllData",
   async () => {
     const URL = `${BASE_API}/kamar/getAllData`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
           data: res.data,
+          message: res.message,
         });
       }
     } catch (err) {
@@ -40,16 +35,13 @@ export const searchNomorKamar = createAsyncThunk(
   async (value) => {
     const URL = `${BASE_API}/kamar/search/${value}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -65,17 +57,13 @@ export const searchNomorKamar = createAsyncThunk(
 export const addKamar = createAsyncThunk("kamar/addKamar", async (values) => {
   const URL = `${BASE_API}/kamar/create`;
   try {
-    const data = await axios.post(URL, values, {
-      headers: {
-        Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-      },
-    });
+    const data = await axios.post(URL, values);
     const res = data.data;
 
     if (res.status === "success") {
       return Promise.resolve({
         status: "success",
-        message: "Berhasil menambahkan kamar",
+        message: res.message,
         data: res.data,
       });
     }
@@ -92,17 +80,13 @@ export const updateKamar = createAsyncThunk(
   async ({ values, id }) => {
     const URL = `${BASE_API}/kamar/edit/${id}`;
     try {
-      const data = await axios.patch(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.patch(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil mengubah kamar",
+          message: res.message,
           data: res.data,
         });
       }
@@ -118,21 +102,18 @@ export const updateKamar = createAsyncThunk(
 export const deleteKamar = createAsyncThunk("kamar/deleteKamar", async (id) => {
   const URL = `${BASE_API}/kamar/delete/${id}`;
   try {
-    const data = await axios.delete(URL, {
-      headers: {
-        Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-      },
-    });
+    const data = await axios.delete(URL);
     const res = data.data;
 
     if (res.status === "success") {
       return Promise.resolve({
         status: "success",
-        message: "Berhasil menghapus kamar",
-        data: res.data.id_kamar,
+        message: res.message,
+        data: id,
       });
     }
   } catch (err) {
+    alert(err.response.data.message);
     return Promise.resolve({
       status: "error",
       message: err.response.data.message,

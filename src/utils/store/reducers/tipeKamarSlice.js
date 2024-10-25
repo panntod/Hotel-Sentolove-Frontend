@@ -5,24 +5,19 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_API } from "../../constants";
-import { getLocalStorage } from "../../helper/localStorage";
-import { LOCAL_STORAGE_TOKEN } from "../../constants";
 
 export const getAllTipeKamar = createAsyncThunk(
   "tipeKamar/getAllTipeKamar",
   async () => {
     const URL = `${BASE_API}/tipe_kamar/getAllData`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -40,16 +35,13 @@ export const searchTipeKamar = createAsyncThunk(
   async (value) => {
     const URL = `${BASE_API}/tipe_kamar/search/${value}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -67,15 +59,12 @@ export const checkAvailableKamarByDate = createAsyncThunk(
   async ({ check_in, check_out }) => {
     const URL = `${BASE_API}/kamar/getTipeKamarAvailable/${check_in}/${check_out}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -93,17 +82,13 @@ export const addTipeKamar = createAsyncThunk(
   async (values) => {
     const URL = `${BASE_API}/tipe_kamar/create`;
     try {
-      const data = await axios.post(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.post(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menambahkan tipe kamar",
+          message: res.message,
           data: res.data,
         });
       }
@@ -121,17 +106,13 @@ export const updateTipeKamar = createAsyncThunk(
   async ({ values, id }) => {
     const URL = `${BASE_API}/tipe_kamar/edit/${id}`;
     try {
-      const data = await axios.patch(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.patch(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil mengubah tipe kamar",
+          message: res.message,
           data: res.data,
         });
       }
@@ -149,21 +130,18 @@ export const deleteTipeKamar = createAsyncThunk(
   async (id) => {
     const URL = `${BASE_API}/tipe_kamar/delete/${id}`;
     try {
-      const data = await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.delete(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menghapus tipe kamar",
+          message: res.message,
           data: res.data.id_tipe_kamar,
         });
       }
     } catch (err) {
+      alert(err.response.data.message);
       return Promise.resolve({
         status: "error",
         message: err.response.data.message,
@@ -212,7 +190,7 @@ const tipeKamarSlice = createSlice({
         });
       }
     });
-    
+
     builder.addCase(deleteTipeKamar.fulfilled, (state, action) => {
       if (action.payload.status === "success") {
         tipeKamarAdapter.removeOne(state, action.payload.data);

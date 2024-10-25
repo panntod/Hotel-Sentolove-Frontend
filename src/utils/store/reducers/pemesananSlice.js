@@ -5,24 +5,19 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_API } from "../../constants";
-import { getLocalStorage } from "../../helper/localStorage";
-import { LOCAL_STORAGE_TOKEN } from "../../constants";
 
 export const getAllDataPemesanan = createAsyncThunk(
   "pemesanan/getAllData",
   async () => {
     const URL = `${BASE_API}/pemesanan/getAllData`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -40,16 +35,13 @@ export const getAllDataPemesananByIdUser = createAsyncThunk(
   async (id) => {
     const URL = `${BASE_API}/pemesanan/getByIdUser/${id}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -67,16 +59,13 @@ export const searchNamaTamu = createAsyncThunk(
   async (name) => {
     const URL = `${BASE_API}/pemesanan/search/${name}`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -94,16 +83,13 @@ export const searchByEmailAndNumber = createAsyncThunk(
   async (values) => {
     const URL = `${BASE_API}/pemesanan/searchByEmailAndNumber`;
     try {
-      const data = await axios.post(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.post(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -121,16 +107,13 @@ export const filterCheckIn = createAsyncThunk(
   async (date) => {
     const URL = `${BASE_API}/pemesanan/filter/check_in/${date}T00:00:00.000Z`;
     try {
-      const data = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.get(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
+          message: res.message,
           data: res.data,
         });
       }
@@ -148,17 +131,13 @@ export const addPemesanan = createAsyncThunk(
   async (values) => {
     const URL = `${BASE_API}/pemesanan/create`;
     try {
-      const data = await axios.post(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.post(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menambahkan pemesanan",
+          message: res.message,
           data: res.data,
         });
       }
@@ -176,17 +155,13 @@ export const updatePemesanan = createAsyncThunk(
   async ({ values, id }) => {
     const URL = `${BASE_API}/pemesanan/edit/${id}`;
     try {
-      const data = await axios.patch(URL, values, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.patch(URL, values);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil mengubah kamar",
+          message: res.message,
           data: res.data,
         });
       }
@@ -204,18 +179,14 @@ export const deletePemesanan = createAsyncThunk(
   async (id) => {
     const URL = `${BASE_API}/pemesanan/delete/${id}`;
     try {
-      const data = await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${getLocalStorage(LOCAL_STORAGE_TOKEN)}`,
-        },
-      });
+      const data = await axios.delete(URL);
       const res = data.data;
 
       if (res.status === "success") {
         return Promise.resolve({
           status: "success",
-          message: "Berhasil menghapus pemesanan",
-          data: res.data.id_pemesanan,
+          message: res.message,
+          data: id,
         });
       }
     } catch (err) {
@@ -277,12 +248,6 @@ const pemesananSlice = createSlice({
           id: action.payload.data.id_pemesanan,
           changes: action.payload.data,
         });
-      }
-    });
-    
-    builder.addCase(deletePemesanan.fulfilled, (state, action) => {
-      if (action.payload.status === "success") {
-        pemesananAdapter.removeOne(state, action.payload.data);
       }
     });
   },
