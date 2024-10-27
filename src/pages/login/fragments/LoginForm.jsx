@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "react-feather";
@@ -30,6 +30,19 @@ export default function LoginForm() {
     handleSubmit,
   } = useForm();
 
+  useEffect(() => {
+    if (localStorage.getItem("sentolove/error")) {
+      setStatus("error");
+      setMessage(localStorage.getItem("sentolove/error"));
+    }
+
+    setTimeout(() => {
+      setMessage("");
+      setStatus("");
+      localStorage.removeItem("sentolove/error");
+    }, 1200);
+  }, [localStorage.getItem("sentolove/error")]);
+
   const submitHandler = async (values) => {
     setIsLoading(true);
     const res = await loginHandler(values);
@@ -49,8 +62,7 @@ export default function LoginForm() {
       setMessage("");
       setStatus("");
       setIsLoading(false);
-    }, 1500);
-    setIsLoading(false);
+    }, 1200);
   };
 
   return (
@@ -61,7 +73,15 @@ export default function LoginForm() {
           Masuk
         </Heading>
         <Text fontSize="md" my={3}>
-          Masuk untuk mulai mencari kamar favorit kalian
+          Masuk sebagai Tamu untuk akses mudah tanpa akun.{" "}
+          <Text
+            color="blue.500"
+            as="span"
+            cursor="pointer"
+            onClick={() => navigate("/dashboard/tamu/")}
+          >
+            Coba Sekarang!
+          </Text>{" "}
         </Text>
       </Box>
       <Box>
