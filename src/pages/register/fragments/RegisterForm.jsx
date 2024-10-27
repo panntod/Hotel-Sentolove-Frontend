@@ -46,18 +46,12 @@ export default function RegisterForm() {
 
     setTimeout(() => {
       if (res.status === "success") {
-        if (res.data.role === "admin") {
-          navigate("/dashboard/admin/");
-        } else if (res.data.role === "resepsionis") {
-          navigate("/dashboard/resepsionis/");
-        } else {
-          navigate("/dashboard/tamu/");
-        }
+        navigate("/login/");
       }
       setMessage("");
       setStatus("");
       setIsLoading(false);
-    }, 1500);
+    }, 1200);
   };
 
   const handleFileChange = (event) => {
@@ -72,7 +66,10 @@ export default function RegisterForm() {
           Daftar
         </Heading>
         <Text fontSize="md" my={3}>
-          Daftar untuk berlangganan dengan kami
+          Daftar untuk mendapatkan akses penuh sebagai{" "}
+          <Text fontSize="md" color="blue.500">
+            Customer kami!
+          </Text>
         </Text>
       </Box>
       <Box>
