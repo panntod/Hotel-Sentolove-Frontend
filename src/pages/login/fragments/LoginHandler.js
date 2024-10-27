@@ -13,16 +13,11 @@ export default async function LoginHandler(values) {
     const res = logindata.data;
 
     if (res.status === "success") {
-      setLocalStorage(LOCAL_STORAGE_TOKEN, res.token);
       setLocalStorage(LOCAL_STORAGE_USER, res.data);
+      setLocalStorage(LOCAL_STORAGE_TOKEN, res.token);
 
       return res;
     }
-
-    return Promise.resolve({
-      status: res.status,
-      message: res.message,
-    });
   } catch (err) {
     return Promise.resolve({
       status: "error",
