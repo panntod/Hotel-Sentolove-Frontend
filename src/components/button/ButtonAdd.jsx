@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Icon } from "@chakra-ui/react";
 import { FaPlusCircle } from "react-icons/fa";
 

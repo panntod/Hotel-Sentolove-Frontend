@@ -1,4 +1,3 @@
-import React from "react";
 import { Heading as HeadingText } from "@chakra-ui/react";
 
 export default function Heading(props) {

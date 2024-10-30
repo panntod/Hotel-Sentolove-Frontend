@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Icon, Button, Text, Box, Tooltip } from "@chakra-ui/react";
 import { useSelector } from "react-redux";

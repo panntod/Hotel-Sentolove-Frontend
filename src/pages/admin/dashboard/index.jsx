@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, Center, Box } from "@chakra-ui/react";
+import { Text, Box } from "@chakra-ui/react";
 import HeadingDashboard from "../../../components/text/HeadingDashboard";
 import Container from "../../../components/container/Container";
 import { getLocalStorage } from "../../../utils/helper/localStorage";
