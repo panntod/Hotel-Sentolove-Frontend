@@ -1,11 +1,17 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
 import Sidebar from "../sidebar";
+import { Navigate, Outlet } from "react-router-dom";
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import { userAuth } from "../../utils/helper/getAuth";
 
 export default function ResepsionisLayout() {
   const ciutkan = useSelector((state) => state.global.ciutkan);
+  const { role } = userAuth();
+
+  if (role !== "resepsionis") {
+    return <Navigate to={`dashboard/${role}`} />;
+  }
+
   return (
     <Box w={"100vw"} maxW="100%" bgColor={"white"}>
       <Grid
