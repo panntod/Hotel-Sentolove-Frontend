@@ -37,7 +37,7 @@ export default function index() {
           textDecor={"none"}
           _hover={{ color: "black" }}
           my={2}
-        >{`<- Kembali Ke Tipe Kamar`}</Text>
+        >{`<- Pilih Tipe Kamar`}</Text>
       </Link>
       <Heading text="Detail Tipe Kamar" />
       <Box my={10} maxW={"100%"}>
@@ -51,7 +51,7 @@ export default function index() {
                 w={{ md: "50%" }}
                 h={96}
                 objectFit={"cover"}
-                border={"1px solid #000"}
+                boxShadow={"lg"}
                 borderRadius={10}
               />
               <Flex flexDir={"column"} gap={3}>
@@ -70,7 +70,12 @@ export default function index() {
                 <Box>
                   <TextPoppins text="Harga" fontWeight={500} fontSize={"md"} />
                   <TextPoppins
-                    text={tipeKamar?.harga}
+                    text={new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    }).format(tipeKamar?.harga)}
                     fontSize={"sm"}
                     fontWeight={300}
                   />
@@ -90,7 +95,7 @@ export default function index() {
                 <Link
                   to={`/dashboard/tamu/pemesanan/${tipeKamar?.id_tipe_kamar}`}
                 >
-                  <Button colorScheme={"green"} size={"sm"} my={2} w={"full"}>
+                  <Button colorScheme={"blue"} rounded={"full"} size={"sm"} my={2} w={"full"}>
                     Pesan
                   </Button>
                 </Link>

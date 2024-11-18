@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Progress, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Progress, Text } from "@chakra-ui/react";
 import { Input, DatePicker } from "antd";
 const { Search } = Input;
 import Heading from "../../../components/text/Heading";
@@ -33,7 +33,7 @@ export default function index() {
 
   const getData = async () => {
     setLoading(true);
-    const result = await dispatch(getAllTipeKamar());
+    await dispatch(getAllTipeKamar());
     setLoading(false);
   };
 
@@ -88,19 +88,12 @@ export default function index() {
           <Progress size="xs" isIndeterminate />
         ) : (
           <Box w={"100%"}>
-            <Flex
-              flexDir={{ base: "column", md: "row" }}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              flexWrap={"wrap"}
+            <Grid
+              templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+              gap={5}
             >
-              {tipeKamar.map((item, index) => (
-                <Box
-                  key={index}
-                  w={{ base: "full", md: "auto" }}
-                  my={5}
-                  mx={{ base: 0, md: 5 }}
-                >
+              {tipeKamar.map((item) => (
+                <Box key={item.id_tipe_kamar} my={5}>
                   <CardTipeKamar
                     foto={item.foto}
                     nama={item.nama_tipe_kamar}
@@ -109,7 +102,7 @@ export default function index() {
                   />
                 </Box>
               ))}
-            </Flex>
+            </Grid>
           </Box>
         )}
       </Box>

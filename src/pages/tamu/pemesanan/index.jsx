@@ -13,7 +13,10 @@ import {
 } from "../../../utils/store/reducers/tipeKamarSlice";
 import { addPemesanan } from "../../../utils/store/reducers/pemesananSlice";
 import { LOCAL_STORAGE_USER } from "../../../utils/constants";
-import { getLocalStorage } from "../../../utils/helper/localStorage";
+import {
+  getLocalStorage,
+  setLocalStorage,
+} from "../../../utils/helper/localStorage";
 import { userAuth } from "../../../utils/helper/getAuth";
 
 export default function index() {
@@ -33,28 +36,29 @@ export default function index() {
     const data = getLocalStorage(LOCAL_STORAGE_USER);
     setUser(data);
   }, []);
-  
+
   const tipeKamar = useSelector((state) =>
     tipeKamarSelectors.selectById(state, id_tipe_kamar),
   );
 
   const getData = async () => {
-    dispatch(getAllTipeKamar());
+    await dispatch(getAllTipeKamar());
   };
 
   const { auth } = userAuth();
 
   if (!auth) {
+    setLocalStorage("sentolove/error", "Silahkan login terlebih dahulu");
     return <Navigate to={"/login"} replace />;
   }
 
   const submitHandler = async (value) => {
     setLoading(true);
     const tgl1 = new Date(value.selectedDate[0]).toISOString();
-    const tgl2 = new Date(value.selectedDate[1]).toISOString();
+    const tgl2 = new Date(value.selectedDate[1]).toISOString();    
 
     if (value.jumlah_kamar <= 0) {
-      setMessage("Masukan jumlah kamar yang valid");
+      setMessage("Ooooops! Masukan jumlah kamar yang valid");
       setStatus("error");
       setLoading(false);
     } else {
@@ -69,12 +73,12 @@ export default function index() {
       const response = await dispatch(addPemesanan(valuesPemesanan));
 
       if (response.payload.status === "success") {
-        setMessage("Pemesanan berhasil");
+        setMessage(response.payload.message);
         setStatus("success");
         setLoading(false);
         setTimeout(() => {
           navigate("/dashboard/tamu/histori-pemesanan");
-        }, 1000);
+        }, 1200);
       } else {
         setMessage(response.payload.message);
         setStatus("error");
@@ -211,7 +215,7 @@ export default function index() {
             )}
           </Box>
           <Button
-            colorScheme={"green"}
+            colorScheme={"blue"}
             size={"sm"}
             onClick={handleSubmit(submitHandler)}
             isLoading={loading}

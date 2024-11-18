@@ -26,6 +26,7 @@ export default function index() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [status, setStatus] = useState("");
   const pemesanan = useSelector(pemesananSelector.selectAll);
   const {
     handleSubmit,
@@ -34,9 +35,10 @@ export default function index() {
   } = useForm();
 
   const submitHandler = async (value) => {
-    setShow(true);
     setLoading(true);
-    await dispatch(searchByEmailAndNumber(value));
+    const res = await dispatch(searchByEmailAndNumber(value));
+    setStatus(res.payload.status);
+    setShow(true);
     setLoading(false);
   };
 
@@ -84,7 +86,7 @@ export default function index() {
             />
             {errors.nomor_pemesanan && (
               <TextPoppins
-                text="Email tidak boleh kosong"
+                text="Nomor Pemesanan tidak boleh kosong"
                 fontSize={"xs"}
                 fontWeight={400}
                 color={"red.500"}
@@ -112,217 +114,218 @@ export default function index() {
             />
           ) : (
             <Box my={6}>
-              {pemesanan.length === 0 && (
+              {status === "error" ? (
                 <TextPoppins
                   text="Pemesanan tidak ditemukan"
-                  fontSize={"md"}
+                  fontSize="md"
                   fontWeight={500}
-                  color={"red.500"}
+                  color="red.500"
                 />
-              )}
-              {pemesanan.map((item) => (
-                <Box
-                  key={item.id_pemesanan}
-                  my={5}
-                  display={"flex"}
-                  flexDir={"column"}
-                  gap={2}
-                  maxW={"50%"}
-                >
-                  <Table variant="simple">
-                    <Tbody>
-                      <Tr>
-                        <Td colSpan={2}>
-                          <TextPoppins
-                            text={`Hasil Pencarian ${item.nomor_pemesanan}`}
-                            fontSize={"md"}
-                            fontWeight={600}
-                          />
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Nama:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.nama_pemesan}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={`Email:`}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.email_pemesan}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Nomor Pemesan:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.nomor_pemesanan}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Tanggal Pemesan:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {new Date(item.tgl_pemesanan).toLocaleDateString(
-                            "id-ID",
-                            {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )}
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Tanggal Check In:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {new Date(item.tgl_check_in).toLocaleDateString(
-                            "id-ID",
-                            {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )}
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Tanggal Check Out:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {new Date(item.tgl_check_out).toLocaleDateString(
-                            "id-ID",
-                            {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )}
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Nama Tamu:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.nama_tamu}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Jumlah Kamar:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.jumlah_kamar}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Tipe Kamar:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>{item.nama_tipe_kamar}</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Nomor Kamar:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {Array.isArray(item.nomor_kamar)
-                            ? item.nomor_kamar.join(", ")
-                            : item.nomor_kamar}
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Harga:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {new Intl.NumberFormat("id-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(item.harga)}
-                        </Td>
-                      </Tr>
-                      <Tr>
-                        <Td>
-                          <TextPoppins
-                            text={"Status Pemesanan:"}
-                            fontSize={"md"}
-                            fontWeight={400}
-                          />
-                        </Td>
-                        <Td>
-                          {item.status_pemesanan === "check_in"
-                            ? "Check In"
-                            : item.status_pemesanan === "check_out"
-                              ? "Check Out"
-                              : "Baru"}
-                        </Td>
-                      </Tr>
-                    </Tbody>
-                  </Table>
-                  <Button
-                    mt={3}
-                    colorScheme={"blue"}
-                    size={"sm"}
-                    onClick={() => {
-                      navigate(
-                        `/dashboard/tamu/cek-pemesanan/cetak-pemesanan/${item.id_pemesanan}`,
-                      );
-                    }}
+              ) : (
+                pemesanan.map((item) => (
+                  <Box
+                    key={item.id_pemesanan}
+                    my={5}
+                    display="flex"
+                    flexDir="column"
+                    gap={2}
+                    maxW="50%"
                   >
-                    Cetak
-                  </Button>
-                </Box>
-              ))}
+                    <Table variant="simple">
+                      <Tbody>
+                        <Tr>
+                          <Td colSpan={2}>
+                            <TextPoppins
+                              text={`Hasil Pencarian ${item.nomor_pemesanan}`}
+                              fontSize="md"
+                              fontWeight={600}
+                            />
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Nama:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.nama_pemesan}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Email:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.email_pemesan}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Nomor Pemesan:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.nomor_pemesanan}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Tanggal Pemesan:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {new Date(item.tgl_pemesanan).toLocaleDateString(
+                              "id-ID",
+                              {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Tanggal Check In:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {new Date(item.tgl_check_in).toLocaleDateString(
+                              "id-ID",
+                              {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Tanggal Check Out:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {new Date(item.tgl_check_out).toLocaleDateString(
+                              "id-ID",
+                              {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Nama Tamu:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.nama_tamu}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Jumlah Kamar:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.jumlah_kamar}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Tipe Kamar:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>{item.nama_tipe_kamar}</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Nomor Kamar:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {Array.isArray(item.nomor_kamar)
+                              ? item.nomor_kamar.join(", ")
+                              : item.nomor_kamar}
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Harga:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            }).format(item.harga)}
+                          </Td>
+                        </Tr>
+                        <Tr>
+                          <Td>
+                            <TextPoppins
+                              text="Status Pemesanan:"
+                              fontSize="md"
+                              fontWeight={400}
+                            />
+                          </Td>
+                          <Td>
+                            {item.status_pemesanan === "check_in"
+                              ? "Check In"
+                              : item.status_pemesanan === "check_out"
+                                ? "Check Out"
+                                : "Baru"}
+                          </Td>
+                        </Tr>
+                      </Tbody>
+                    </Table>
+                    <Button
+                      mt={3}
+                      colorScheme="blue"
+                      size="sm"
+                      onClick={() => {
+                        navigate(
+                          `/dashboard/tamu/cek-pemesanan/cetak-pemesanan/${item.id_pemesanan}`,
+                        );
+                      }}
+                    >
+                      Cetak
+                    </Button>
+                  </Box>
+                ))
+              )}
             </Box>
           ))}
       </Box>
