@@ -10,7 +10,7 @@ export default function Edit({ payload }) {
       <IconButton
         onClick={onOpen}
         aria-label="edit"
-        icon={<EditIcon />}
+        icon={<EditIcon size={18}/>}
         colorScheme="blue"
       />
     </>

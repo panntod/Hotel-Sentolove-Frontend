@@ -1,4 +1,3 @@
-import React from "react";
 import ActionButton from "./ActionButton";
 import { Image } from "@chakra-ui/react";
 import { BASE_API_IMAGE } from "../../../../utils/constants";

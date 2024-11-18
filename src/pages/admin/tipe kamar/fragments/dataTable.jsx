@@ -1,4 +1,3 @@
-import React from "react";
 import ActionButton from "./ActionButton";
 import { Image } from "@chakra-ui/react";
 import { BASE_API_IMAGE } from "../../../../utils/constants";
@@ -21,7 +20,16 @@ const columns = [
     dataIndex: "harga",
     key: "harga",
     width: "15%",
-    render: (harga) => <span>Rp. {harga}</span>,
+    render: (harga) => (
+      <span>
+        {new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(harga)}
+      </span>
+    ),
   },
   {
     title: "Foto",

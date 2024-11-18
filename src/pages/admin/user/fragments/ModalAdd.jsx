@@ -17,7 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addPengguna } from "../../../../utils/store/reducers/penggunaSlice";
+import {
+  addPengguna,
+  getAllPengguna,
+} from "../../../../utils/store/reducers/penggunaSlice";
 import AlertNotification from "../../../../components/alert";
 
 export default function ModalAdd({ isOpen, onClose }) {
@@ -41,32 +44,30 @@ export default function ModalAdd({ isOpen, onClose }) {
     form.append("password", values.password);
     form.append("foto", values.foto[0]);
 
-    if (
-      values.foto[0].type !== "image/jpeg" &&
-      values.foto[0].type !== "image/png"
-    ) {
+    const fileType = values.foto[0]?.type;
+    const isImage = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/webp",
+    ].includes(fileType);
+
+    if (!isImage) {
       setMessage("File harus berupa gambar");
       setStatus("error");
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
-      return;
-    }
-
-    const res = await dispatch(addPengguna(form));
-    setMessage(res.payload.message);
-    setStatus(res.payload.status);
-
-    if (res.payload.status === "success") {
-      setTimeout(() => {
-        onClose(), reset(), setStatus(""), setMessage("");
-        setIsLoading(false);
-      }, 500);
-      return;
+      setIsLoading(false);
     } else {
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
+      const res = await dispatch(addPengguna(form));
+      setMessage(res.payload.message);
+      setStatus(res.payload.status);
+      setIsLoading(false);
+
+      if (res.payload.status === "success") {
+        await dispatch(getAllPengguna());
+        setTimeout(() => {
+          onClose(), reset(), setStatus(""), setMessage("")
+        }, 1200);
+      }
     }
   };
 

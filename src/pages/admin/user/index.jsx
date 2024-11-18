@@ -21,9 +21,9 @@ export default function index() {
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSearch = (value) => {
+  const handleSearch = async(value) => {
     setLoading(true);
-    dispatch(searchPengguna(value));
+    await dispatch(searchPengguna(value));
     setLoading(false);
   };
 

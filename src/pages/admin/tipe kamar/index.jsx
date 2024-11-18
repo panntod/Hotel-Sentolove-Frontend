@@ -21,9 +21,9 @@ export default function index() {
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSearch = (value) => {
+  const handleSearch = async(value) => {
     setLoading(true);
-    dispatch(searchTipeKamar(value));
+    await dispatch(searchTipeKamar(value));
     setLoading(false);
   };
 

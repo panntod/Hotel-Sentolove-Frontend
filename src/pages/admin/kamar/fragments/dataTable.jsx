@@ -1,4 +1,3 @@
-import React from "react";
 import ActionButton from "./ActionButton";
 
 const columns = [
@@ -22,7 +21,16 @@ const columns = [
     dataIndex: "tipe_kamar",
     key: "harga",
     width: "15%",
-    render: (text) => <span>Rp. {text?.harga}</span>,
+    render: (text) => (
+      <span>
+        {new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(text?.harga)}
+      </span>
+    ),
   },
   {
     title: "Aksi",

@@ -19,7 +19,10 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addTipeKamar } from "../../../../utils/store/reducers/tipeKamarSlice";
+import {
+  addTipeKamar,
+  getAllTipeKamar,
+} from "../../../../utils/store/reducers/tipeKamarSlice";
 import AlertNotification from "../../../../components/alert";
 
 export default function ModalAdd({ isOpen, onClose }) {
@@ -35,39 +38,42 @@ export default function ModalAdd({ isOpen, onClose }) {
   } = useForm();
 
   const submitHandler = async (values) => {
-    setIsLoading(!isLoading);
-    let form = new FormData();
+    setIsLoading(true);
+    const form = new FormData();
     form.append("nama_tipe_kamar", values.nama_tipe_kamar);
     form.append("harga", values.harga);
     form.append("deskripsi", values.deskripsi);
     form.append("foto", values.foto[0]);
 
-    if (
-      values.foto[0].type !== "image/jpeg" &&
-      values.foto[0].type !== "image/png"
-    ) {
+    const fileType = values.foto[0].type;
+    const isImage = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/webp",
+    ].includes(fileType);
+
+    if (!isImage) {
       setMessage("File harus berupa gambar");
       setStatus("error");
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
-      return;
-    }
-
-    const res = await dispatch(addTipeKamar(form));
-    setMessage(res.payload.message);
-    setStatus(res.payload.status);
-
-    if (res.payload.status === "success") {
-      setTimeout(() => {
-        onClose(), reset(), setStatus(""), setMessage("");
-        setIsLoading(false);
-      }, 500);
-      return;
+      setIsLoading(false);
+    } else if (values.harga < 0) {
+      setMessage("Masukan Nominal Harga yang benar");
+      setStatus("error");
+      setIsLoading(false);
     } else {
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
+      const res = await dispatch(addTipeKamar(form));
+      setMessage(res.payload.message);
+      setStatus(res.payload.status);
+      setIsLoading(false);
+
+      if (res.payload.status === "success") {
+        await dispatch(getAllTipeKamar());
+
+        setTimeout(() => {
+          onClose(), reset(), setStatus(""), setMessage("");
+        }, 1200);
+      }
     }
   };
 

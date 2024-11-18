@@ -17,7 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addKamar, getAllDataKamar } from "../../../../utils/store/reducers/kamarSlice";
+import {
+  addKamar,
+  getAllDataKamar,
+} from "../../../../utils/store/reducers/kamarSlice";
 import { tipeKamarSelectors } from "../../../../utils/store/reducers/tipeKamarSlice";
 import AlertNotification from "../../../../components/alert";
 
@@ -35,21 +38,17 @@ export default function ModalAdd({ isOpen, onClose }) {
   } = useForm();
 
   const submitHandler = async (values) => {
-    setIsLoading(!isLoading);
+    setIsLoading(true);
     const res = await dispatch(addKamar(values));
     setMessage(res.payload.message);
     setStatus(res.payload.status);
+    setIsLoading(false);
+
     if (res.payload.status === "success") {
-      dispatch(getAllDataKamar());
+      await dispatch(getAllDataKamar());
       setTimeout(() => {
         onClose(), reset(), setStatus(""), setMessage("");
-        setIsLoading(false);
-      }, 500);
-      return;
-    } else {
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
+      }, 1200);
     }
   };
 
@@ -107,7 +106,10 @@ export default function ModalAdd({ isOpen, onClose }) {
                     })}
                   >
                     {tipeKamar.map((item) => (
-                      <option key={item.id} value={item.id_tipe_kamar}>
+                      <option
+                        key={item.id_tipe_kamar}
+                        value={item.id_tipe_kamar}
+                      >
                         {item.nama_tipe_kamar}
                       </option>
                     ))}

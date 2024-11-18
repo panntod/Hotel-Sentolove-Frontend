@@ -10,7 +10,7 @@ export default function Delete({ payload }) {
       <IconButton
         onClick={onOpen}
         aria-label="delete"
-        icon={<Trash2 />}
+        icon={<Trash2 size={18} />}
         colorScheme="red"
       />
     </>

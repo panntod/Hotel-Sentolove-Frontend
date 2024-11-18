@@ -13,13 +13,13 @@ import {
   Textarea,
   Button,
   Heading,
-  FormHelperText,
   Box,
   Flex,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getAllTipeKamar,
   tipeKamarSelectors,
   updateTipeKamar,
 } from "../../../../utils/store/reducers/tipeKamarSlice";
@@ -31,33 +31,64 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const tipeKamar = useSelector((state) =>
-    tipeKamarSelectors.selectById(state, payload)
+    tipeKamarSelectors.selectById(state, payload),
   );
   const { register, handleSubmit, reset } = useForm();
 
   const submitHandler = async (values) => {
-    setIsLoading(!isLoading);
-    let form = new FormData();
-    tipeKamar.nama_tipe_kamar !== values.nama_tipe_kamar &&
-      form.append("nama_tipe_kamar", values.nama_tipe_kamar);
-    tipeKamar.harga !== values.harga && form.append("harga", values.harga);
-    tipeKamar.deskripsi !== values.deskripsi &&
-      form.append("deskripsi", values.deskripsi);
-    form.append("foto", values.foto[0]);
+    setIsLoading(true);
+    const form = new FormData();
 
-    const res = await dispatch(updateTipeKamar({ values: form, id: payload }));
-    setMessage(res.payload.message);
-    setStatus(res.payload.status);
-    if (res.payload.status === "success") {
-      setTimeout(() => {
-        onClose(), reset(), setStatus(""), setMessage("");
+    const fieldsToUpdate = [
+      { key: "nama_tipe_kamar", value: values.nama_tipe_kamar },
+      { key: "harga", value: values.harga },
+      { key: "deskripsi", value: values.deskripsi },
+      { key: "foto", value: values.foto[0] },
+    ];
+
+    fieldsToUpdate.forEach(({ key, value }) => {
+      if (tipeKamar[key] !== value) {
+        form.append(key, value);
+      }
+    });
+
+    const fileType = values.foto[0]?.type;
+
+    if (fileType) {
+      const isImage = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+      ].includes(fileType);
+
+      if (!isImage) {
+        setMessage("File harus berupa gambar");
+        setStatus("error");
         setIsLoading(false);
-      }, 500);
+        return;
+      }
+    }
+
+    if (values.harga < 0) {
+      setMessage("Masukan Nominal Harga yang benar");
+      setStatus("error");
+      setIsLoading(false);
       return;
     } else {
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
+      const res = await dispatch(
+        updateTipeKamar({ values: form, id: payload }),
+      );
+      setMessage(res.payload.message);
+      setStatus(res.payload.status);
+      setIsLoading(false);
+
+      if (res.payload.status === "success") {
+        await dispatch(getAllTipeKamar());
+        setTimeout(() => {
+          onClose(), reset(), setStatus(""), setMessage("");
+        }, 1200);
+      }
     }
   };
 

@@ -18,6 +18,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getAllPengguna,
   penggunaSelectors,
   updatePengguna,
 } from "../../../../utils/store/reducers/penggunaSlice";
@@ -29,7 +30,7 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const pengguna = useSelector((state) =>
-    penggunaSelectors.selectById(state, payload)
+    penggunaSelectors.selectById(state, payload),
   );
   const {
     register,
@@ -41,27 +42,49 @@ export default function ModalAdd({ isOpen, onClose, payload }) {
   const submitHandler = async (values) => {
     setIsLoading(true);
     let form = new FormData();
-    pengguna.nama_user !== values?.nama_user &&
-      form.append("nama_user", values?.nama_user);
-    pengguna.role !== values?.role && form.append("role", values?.role);
-    pengguna.password !== values?.password &&
-      form.append("password", values?.password);
-    pengguna.foto !== values?.foto[0] && form.append("foto", values?.foto[0]);
-    pengguna.email !== values?.email && form.append("email", values?.email);
+
+    const fieldsToUpdate = [
+      { key: "nama_user", value: values?.nama_user },
+      { key: "role", value: values?.role },
+      { key: "password", value: values?.password },
+      { key: "foto", value: values?.foto[0] },
+      { key: "email", value: values?.email },
+    ];
+
+    fieldsToUpdate.forEach(({ key, value }) => {
+      if (pengguna[key] !== value) {
+        form.append(key, value);
+      }
+    });
+
+    const fileType = values.foto[0]?.type;
+
+    if (fileType) {
+      const isImage = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+      ].includes(fileType);
+
+      if (!isImage) {
+        setMessage("File harus berupa gambar");
+        setStatus("error");
+        setIsLoading(false);
+        return;
+      }
+    }
 
     const res = await dispatch(updatePengguna({ values: form, id: payload }));
     setMessage(res.payload.message);
     setStatus(res.payload.status);
+    setIsLoading(false);
+
     if (res.payload.status === "success") {
+      await dispatch(getAllPengguna());
       setTimeout(() => {
         onClose(), reset(), setStatus(""), setMessage("");
-        setIsLoading(false);
-      }, 500);
-      return;
-    } else {
-      setTimeout(() => {
-        setIsLoading(false), setMessage(""), setStatus("");
-      }, 1000);
+      }, 1200);
     }
   };
 
