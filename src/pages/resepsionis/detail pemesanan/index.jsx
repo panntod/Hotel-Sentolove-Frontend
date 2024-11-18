@@ -28,7 +28,7 @@ export default function index() {
   const [loading, setLoading] = useState(false);
   const { id_pemesanan } = useParams();
   const pemesanan = useSelector((state) =>
-    pemesananSelector.selectById(state, id_pemesanan)
+    pemesananSelector.selectById(state, id_pemesanan),
   );
 
   const getData = async () => {
@@ -48,7 +48,7 @@ export default function index() {
           textDecor={"none"}
           _hover={{ color: "black" }}
           my={2}
-        >{`<-- Kembali Ke Kelola Pemesanan`}</Text>
+        >{`<- Kembali Ke Kelola Pemesanan`}</Text>
       </Link>
       <Heading text="Detail Pemesanan" />
       <Box my={10} maxW={"100%"}>
@@ -145,7 +145,7 @@ export default function index() {
                         updatePemesanan({
                           id: id_pemesanan,
                           values: { status_pemesanan: value },
-                        })
+                        }),
                       );
                     }}
                   >
@@ -158,7 +158,7 @@ export default function index() {
             </GridItem>
             <GridItem colSpan={1}>
               <TextPoppins
-                text="Tanggal Pemesan"
+                text="Detail Pemesanan"
                 fontWeight={700}
                 color={"blue.500"}
                 fontSize={"xl"}
@@ -219,7 +219,7 @@ export default function index() {
                     fontSize={"md"}
                   />
                   <TextPoppins
-                    text={pemesanan?.tipe_kamar?.nama_tipe_kamar}
+                    text={pemesanan?.nama_tipe_kamar}
                     fontSize={"sm"}
                     fontWeight={300}
                   />
@@ -231,19 +231,12 @@ export default function index() {
                     fontSize={"md"}
                   />
                   <TextPoppins
-                    text={`Rp. ${pemesanan?.tipe_kamar?.harga}`}
-                    fontSize={"sm"}
-                    fontWeight={300}
-                  />
-                </Box>
-                <Box>
-                  <TextPoppins
-                    text="Deskripsi Kamar"
-                    fontWeight={500}
-                    fontSize={"md"}
-                  />
-                  <TextPoppins
-                    text={pemesanan?.tipe_kamar?.deskripsi}
+                    text={new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    }).format(pemesanan?.harga)}
                     fontSize={"sm"}
                     fontWeight={300}
                   />
@@ -255,8 +248,8 @@ export default function index() {
                     fontSize={"md"}
                   />
                   <Image
-                    src={`${BASE_API_IMAGE}/tipe_kamar/${pemesanan?.tipe_kamar?.foto}`}
-                    w={28}
+                    src={`${BASE_API_IMAGE}/tipe_kamar/${pemesanan?.foto}`}
+                    w={"auto"}
                     h={40}
                     objectFit={"cover"}
                     objectPosition={"center"}
@@ -270,6 +263,18 @@ export default function index() {
                   />
                   <TextPoppins
                     text={pemesanan?.jumlah_kamar}
+                    fontSize={"sm"}
+                    fontWeight={300}
+                  />
+                </Box>
+                <Box>
+                  <TextPoppins
+                    text="Nomor Kamar"
+                    fontWeight={500}
+                    fontSize={"md"}
+                  />
+                  <TextPoppins
+                    text={pemesanan?.nomor_kamar}
                     fontSize={"sm"}
                     fontWeight={300}
                   />

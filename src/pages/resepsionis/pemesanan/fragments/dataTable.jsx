@@ -1,4 +1,3 @@
-import React from "react";
 import ActionButton from "./ActionButton";
 
 const columns = [
@@ -42,22 +41,36 @@ const columns = [
   },
   {
     title: "Tipe Kamar",
-    dataIndex: "tipe_kamar",
-    key: "tipe_kamar",
+    dataIndex: "nama_tipe_kamar",
+    key: "nama_tipe_kamar",
     width: "15%",
-    render: (tipe_kamar) => <span>{tipe_kamar?.nama_tipe_kamar}</span>,
+  },
+  {
+    title: "Nomor Kamar",
+    dataIndex: "nomor_kamar",
+    key: "nomor_kamar",
+    width: "10%",
   },
   {
     title: "Status",
     dataIndex: "status_pemesanan",
     key: "status_pemesanan",
     width: "10%",
+    render: (status) => (
+      <span>
+        {status === "check_in"
+          ? "Checkin"
+          : status === "check_out"
+            ? "Checkout"
+            : "Baru"}
+      </span>
+    ),
   },
   {
     title: "Aksi",
     dataIndex: "id_pemesanan",
     key: "aksi",
-    width: "15%",
+    width: "6%",
     render: (record) => <ActionButton payload={record} />,
   },
 ];

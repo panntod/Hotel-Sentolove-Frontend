@@ -19,15 +19,15 @@ export default function index() {
   const pemesanan = useSelector(pemesananSelector.selectAll);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = (name) => {
+  const handleSearch = async(name) => {
     setLoading(true);
-    dispatch(searchNamaTamu(name));
+    await dispatch(searchNamaTamu(name));
     setLoading(false);
   };
 
-  const handleFilter = (date) => {
+  const handleFilter = async(date) => {
     setLoading(true);
-    dispatch(filterCheckIn(date));
+    await dispatch(filterCheckIn(date));
     setLoading(false);
   };
 
@@ -57,7 +57,7 @@ export default function index() {
           <Input
             type="date"
             onChange={(e) => {
-              if (e.target.value === "") {
+              if (e.target.value == "") {
                 getData();
               } else {
                 handleFilter(e.target.value);
@@ -70,7 +70,7 @@ export default function index() {
           <Search
             placeholder="Cari Nama Tamu"
             onChange={(e) => {
-              if (e.target.value === "") {
+              if (e.target.value == "") {
                 getData();
               } else {
                 handleSearch(e.target.value);
