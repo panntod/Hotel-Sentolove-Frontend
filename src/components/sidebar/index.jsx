@@ -11,91 +11,27 @@ import {
   Button,
   Icon,
 } from "@chakra-ui/react";
-import { BsBuilding, BsFillGrid1X2Fill } from "react-icons/bs";
+import { BsFillGrid1X2Fill } from "react-icons/bs";
 import {
-  AiFillBuild,
-  AiFillDollarCircle,
   AiOutlineHistory,
-  AiTwotoneFilePdf,
   AiOutlineDoubleLeft,
   AiOutlineDoubleRight,
 } from "react-icons/ai";
-import { TiMediaPlay } from "react-icons/ti";
-import {
-  FaUserAlt,
-  FaHandHolding,
-  FaUserTie,
-  FaNewspaper,
-} from "react-icons/fa";
-import {
-  MdCategory,
-  MdBedroomParent,
-  MdBedtime,
-  MdLogout,
-} from "react-icons/md";
+import { FaUserAlt, FaNewspaper } from "react-icons/fa";
+import { MdBedroomParent, MdBedtime } from "react-icons/md";
 import { X, AlignCenter } from "react-feather";
 import NavItem from "./fragments/NavItem";
-import NavAccordion from "./fragments/NavAccordion";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCiutkan } from "../../utils/store/reducers/globalSlice";
 import Logout from "./fragments/Logout";
 import { getLocalStorage } from "../../utils/helper/localStorage";
 import { LOCAL_STORAGE_USER } from "../../utils/constants";
 
-const propertyMenus = [
-  {
-    label: "Properti Primer",
-    icon: BsBuilding,
-    path: "/property/property-primary",
-  },
-  {
-    label: "Properti Seken",
-    icon: BsBuilding,
-    path: "/property/property-secondary",
-  },
-];
-
-const developerMenus = [
-  {
-    label: "Kelola Konsumen",
-    icon: FaUserAlt,
-    path: "/developer-management/consumen",
-  },
-  {
-    label: "Transaksi (SPR)",
-    icon: AiFillDollarCircle,
-    path: "/developer-management/transaction",
-  },
-  {
-    label: "Laporan",
-    icon: AiTwotoneFilePdf,
-    path: "/developer-management/report",
-  },
-];
-
-const kategoriMenus = [
-  {
-    label: "Media",
-    icon: TiMediaPlay,
-    path: "/kategori/kategori-media",
-  },
-  {
-    label: "Promosi",
-    icon: AiFillDollarCircle,
-    path: "/kategori/kategori-promosi",
-  },
-  {
-    label: "Property",
-    icon: AiFillBuild,
-    path: "/kategori/kategori-property",
-  },
-];
-
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
   const ciutkan = useSelector((state) => state.global.ciutkan);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const dataUser = getLocalStorage(LOCAL_STORAGE_USER);
 
   useEffect(() => {
@@ -163,7 +99,7 @@ export default function Sidebar() {
         >
           <Stack w={"full"}>
             <Box w={"full"}>
-              {dataUser.role === "admin" && (
+              {dataUser?.role === "admin" && (
                 <>
                   <NavItem
                     link={"/dashboard/admin/"}
@@ -187,7 +123,7 @@ export default function Sidebar() {
                   />
                 </>
               )}
-              {dataUser.role === "resepsionis" && (
+              {dataUser?.role === "resepsionis" && (
                 <>
                   <NavItem
                     link={"/dashboard/resepsionis/"}
@@ -201,7 +137,7 @@ export default function Sidebar() {
                   />
                 </>
               )}
-              {dataUser.role === "tamu" && (
+              {(dataUser?.role === undefined || dataUser?.role === "tamu") && (
                 <>
                   <NavItem
                     link={"/dashboard/tamu/"}
@@ -213,16 +149,20 @@ export default function Sidebar() {
                     label={"Kamar"}
                     icon={MdBedroomParent}
                   />
-                  <NavItem
-                    link={"/dashboard/tamu/histori-pemesanan"}
-                    label={"Histori Pemesanan"}
-                    icon={AiOutlineHistory}
-                  />
-                  <NavItem
-                    link={"/dashboard/tamu/cek-pemesanan"}
-                    label={"Cek Pemesanan"}
-                    icon={FaNewspaper}
-                  />
+                  {dataUser?.role === "tamu" && (
+                    <>
+                      <NavItem
+                        link={"/dashboard/tamu/histori-pemesanan"}
+                        label={"Histori Pemesanan"}
+                        icon={AiOutlineHistory}
+                      />
+                      <NavItem
+                        link={"/dashboard/tamu/cek-pemesanan"}
+                        label={"Cek Pemesanan"}
+                        icon={FaNewspaper}
+                      />
+                    </>
+                  )}
                 </>
               )}
               <Logout />
@@ -257,10 +197,12 @@ export default function Sidebar() {
           </Stack>
         </VStack>
       </Flex>
+
+      {/* Mobile */}
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} spacing={[4]}>
-            {dataUser.role === "admin" && (
+            {dataUser?.role === "admin" && (
               <>
                 <NavItem
                   link={"/dashboard/admin/"}
@@ -284,7 +226,7 @@ export default function Sidebar() {
                 />
               </>
             )}
-            {dataUser.role === "resepsionis" && (
+            {dataUser?.role === "resepsionis" && (
               <>
                 <NavItem
                   link={"/dashboard/resepsionis/"}
@@ -298,7 +240,7 @@ export default function Sidebar() {
                 />
               </>
             )}
-            {dataUser.role === "tamu" && (
+            {(dataUser?.role === undefined || dataUser?.role === "tamu") && (
               <>
                 <NavItem
                   link={"/dashboard/tamu/"}
@@ -310,16 +252,20 @@ export default function Sidebar() {
                   label={"Kamar"}
                   icon={MdBedroomParent}
                 />
-                <NavItem
-                  link={"/dashboard/tamu/cek-pemesanan"}
-                  label={"Cek Pemesanan"}
-                  icon={FaNewspaper}
-                />
-                <NavItem
-                  link={"/dashboard/tamu/histori-pemesanan"}
-                  label={"Histori Pemesanan"}
-                  icon={AiOutlineHistory}
-                />
+                {dataUser?.role === "tamu" && (
+                  <>
+                    <NavItem
+                      link={"/dashboard/tamu/cek-pemesanan"}
+                      label={"Cek Pemesanan"}
+                      icon={FaNewspaper}
+                    />
+                    <NavItem
+                      link={"/dashboard/tamu/histori-pemesanan"}
+                      label={"Histori Pemesanan"}
+                      icon={AiOutlineHistory}
+                    />
+                  </>
+                )}
               </>
             )}
             <Logout />

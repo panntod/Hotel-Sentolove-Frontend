@@ -1,15 +1,17 @@
-import React from "react";
 import { Icon, Button, Text, Tooltip } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { clearLocalStorage } from "../../../utils/helper/localStorage";
+import { userAuth } from "../../../utils/helper/getAuth";
 
 export default function Logout() {
   const ciutkan = useSelector((state) => state.global.ciutkan);
+  const { auth } = userAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    document.cookie = "sentolove/token=; Max-Age=0; path=/;";
     clearLocalStorage();
     navigate("/login");
   };
@@ -45,7 +47,7 @@ export default function Logout() {
         />
         {!ciutkan && (
           <Text fontSize={"sm"} fontWeight={"normal"} ml={4}>
-            Logout
+            {auth ? "Logout" : "Login"}
           </Text>
         )}
       </Button>
